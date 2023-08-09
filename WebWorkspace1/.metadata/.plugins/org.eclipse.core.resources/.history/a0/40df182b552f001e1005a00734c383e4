@@ -1,0 +1,18 @@
+package com.kh.board.model.service;
+
+import org.apache.ibatis.session.SqlSession;
+
+import com.kh.board.model.dao.BoardDao;
+import com.kh.common.Template;
+
+public class BoardService {
+	private BoardDao dao = new BoardDao();
+	
+	public int selectListCount() {
+		SqlSession sqlSession = Template.getSqlSession();
+		int listCount = dao.selectListCount(sqlsession);
+		sqlSession.close();
+		
+	}
+
+}

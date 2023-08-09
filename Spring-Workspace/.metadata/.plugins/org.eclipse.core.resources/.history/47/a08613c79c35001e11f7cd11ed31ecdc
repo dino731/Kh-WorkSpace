@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">
+	<resultMap type="boardtype" id="boardTypeResultSet">
+		<id column="BOARD_CD" property="boardCd"/>
+		<id column="BOARD_NAME" property="boardName"/>
+	</resultMap>
+	<resultMap type="board" id="boardResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="COUNT" property="count"/>
+	</resultMap>
+
+	<select id="selectBoardTypeList" resultMap="boardTypeResultSet">
+		SELECT *
+		FROM BOARD_TYPE
+		ORDER BY BOARD_CD
+	</select>
+	<select id="selectList" parameterType="hashmap" resultMap="boardResultSet">
+		SELECT
+			BOARD_NO,
+			BOARD_TITLE,
+			user_name as BOARD_WRITER ,
+			COUNT,
+			B.CREATE_DATE
+		FROM BOARD B
+		JOIN MEMBER M ON B.BOARD_WRITER = M.USER_NO
+		WHERE B.STATUS = 'Y' AND BOARD_CD = #{boardCode}
+		<if test="keyword != null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					BOARD_TITLE LIKE '%${keyword}%'
+				</when>
+				<when test="condition == 'content'">
+					BOARD_CONTENT LIKE '%${keyword}%'
+				</when>
+				<when test="condition == 'titleAndContent'">
+					(BOARD_TITLE LIKE '%${keyword}%'
+					OR
+					BOARD_CONTENT LIKE '%${keyword}%'
+					)
+				</when>
+				<when test="condition == 'writer'">
+					user_name LIKE '%${keyword}%'
+				</when>
+			</choose>
+		</if>
+		ORDER BY B.CREATE_DATE DESC
+	</select>
+	<select id="selectListCount" parameterType="hashmap" resultType="int">
+	SELECT count(*)
+	FROM BOARD B
+	JOIN MEMBER M ON B.BOARD_WRITER = M.USER_NO
+	WHERE B.STATUS = 'Y' AND BOARD_CD = #{boardCode}
+	ORDER BY B.CREATE_DATE DESC
+	</select>
+	<insert id="insertBoard" parameterType="board" useGeneratedKeys="true">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			SELECT SEQ_BNO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD
+		(
+			BOARD_NO,
+			BOARD_TITLE,
+			BOARD_WRITER,
+			BOARD_CONTENT,
+			BOARD_CD
+		)VALUES(
+			#{boardNo},
+			#{boardTitle},
+			#{boardWriter},
+			#{boardContent},
+			#{boardCd}
+		)
+		
+	</insert>
+	<insert id="insertAttachment" parameterType="attachment">
+		INSERT INTO ATTACHMENT(
+			FILE_NO,
+			REF_BNO,
+			ORIGIN_NAME,
+			CHANGE_NAME,
+			FILE_PATH
+		)VALUES(
+			SEQ_FNO.NEXTVAL,
+			#{refBno},
+			#{originName},
+			#{changeName},
+			#{filePath}
+		)
+		
+	</insert>
+	<!-- 
+		동적 SQL문중 <foreach>
+		- 특정 SQL구문을 반복할 때 사용
+		- 반복되는 쿼리문 사이에 구분자를 추가할 수 있음.
+		
+		collection : 반복할 객체의 타입
+		itme : collection에서 순차적으로 꺼낸 값을 저장하는 변수
+		index : 현재 반복 접근중인 인덱스(0,1,2,3,4...)
+		
+		open : 반복 전에 출력할 sql
+		close : 반복 종류 후에 출력할 sql
+		separtor : 반복 사이 구분자
+	 -->
+	 <insert id="insertAttachmentList" parameterType="list">
+	 	INSERT INTO ATTACHMENT(FILE_NO, ORIGIN_NAME, CHANGE_NAME, REF_BNO, FILE_PATH)
+	 	SELECT SEQ_FNO.NEXTVAL AS FILE_NO,
+	 			C.* FROM(
+	 			<foreach collection="list" item="attch" separator="UNION ALL">
+	 				SELECT
+	 					#{attch.originName} as ORIGIN_NAME,
+	 					#{attch.changeName} as CHANGE_NAME,
+	 					#{attch.refBno} as REF_BNO,
+	 					#{attch.filePath} as FILE_PATH
+	 					FROM DUAL
+	 			</foreach>
+	 			)C
+	 </insert>
+	 <resultMap type="boardExt" id="boardDetailResultSet">
+	 	<id column="BOARD_NO" property="boardNo"/>
+	 	<result column="BOARD_TITLE" property="boardTitle"/>
+	 	<result column="BOARD_CONTENT" property="boardContent"/>
+	 	<result column="CREATE_DATE" property="createDate"/>
+	 	<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="COUNT" property="count"/>
+		
+		<collection property="attachList" ofType="attachment" javaType="java.util.List">
+			<id column="FILE_NO" property="fileNo"/>
+			<result column="REF_BNO" property="refBno"/>
+			<result column="ORIGIN_NAME" property="originName"/>
+			<result column="CHANGE_NAME" property="changeName"/>
+			<result column="FILE_PATH" property="filePath"/>
+		</collection>
+	  </resultMap>
+		<!-- 
+			collection ofTYpe :  제네릭타입,
+					 javaType : 자바의 자료형
+					 property : collection 결과를 저장할 boardExt 타입의 필드명
+		 -->
+		 <collection property="replyList" ofType="reply" javaType="java.utile.List"
+		 			 select="selectReplyList" column="BOARD_NO"
+		 />
+		 <!-- 
+		 	selectReplyList의 조회 결과를 boardExt vo객체의 replyList 필드에 담겠다는 의미.
+		 	replyList에 담을 때 java.util.List<reply>객체를 생성해서 담을 예정.
+		 	selectReplyList를 호출할 때 필요한 데이터(boardNo)의 경우 column="BOARD_NO"을 사용해서 현재 조회된
+		 	resultMap내부의 BOARD_NO값을 전달해준다.
+		  -->
+		 <resultMap type="reply" id="replyResultSet">
+		 	<id column="REPLY_NO" property="replyNo"/>
+		 	<result column="REPLY_CONTENT" property="replyContent"/>
+		 	<result column="REF_BNO" property="refBno"/>
+		 	<result column="REPLY_WRITER" property="replyWriter"/>
+		 	<result column="CREATE_DATE" property="createDate"/>
+		 </resultMap>
+		 
+
+	 <select id="selectBoard" parameterType="int" resultMap="boardDetailResultSet">
+	 	SELECT
+		     BOARD_NO,
+		     BOARD_WRITER,
+		     BOARD_TITLE,
+		     BOARD_CONTENT,
+		     COUNT,
+		     TO_CHAR(B.CREATE_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS')CREATE_DATE,
+		     AT.*
+		FROM BOARD B
+		LEFT JOIN ATTACHMENT AT ON BOARD_NO = REF_BNO
+		JOIN MEMBER M ON USER_NO = BOARD_WRITER
+		WHERE BOARD_NO = #{boardNo}
+	 </select>
+	 <update id="increaseCount" parameterType="int">
+	 	UPDATE BOARD
+	 		SET COUNT = COUNT +1
+	 	WHERE BOARD_NO = #{bno}
+	 </update>
+	 <select id="selectReplyList" resultMap="replyResultSet" parameterType="int">
+	 	SELECT
+	 		REPLY_NO,
+	 		REPLY_CONTENT,
+	 		REF_BNO,
+	 		USER_ID REPLY_WRITER,
+	 		R.CREATE_DATE,
+	 		R.STATUS
+	 	FROM REPLY R
+	 	JOIN MEMBER M ON R.REPLY_WRITER = M.USER_NO
+	 	WHERE REF_BNO = #{bno}
+	 		AND R.STATUS
+	 </select>
+
+</mapper>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;AjaxProject/src/com/kh/controller/AjaxFileUploardController.java&apos; to &apos;AjaxFileUploadController.java&apos;" description="Rename resource &apos;AjaxFileUploardController.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/com/kh/controller/AjaxFileUploardController.java" name="AjaxFileUploadController.java" stamp="1688699607636" updateReferences="true"/>
+</session>

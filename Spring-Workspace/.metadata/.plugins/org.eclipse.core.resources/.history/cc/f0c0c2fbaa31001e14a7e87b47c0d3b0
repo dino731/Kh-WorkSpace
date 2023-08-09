@@ -1,0 +1,16 @@
+package com.kh.spring;
+
+public class LogTest {
+
+	/*
+	 * Logging
+	 * - 콘솔로그 : System.out.printXX 보다 효율적인 로그관리가 가능하다.
+	 * 
+	 * 
+	*/
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

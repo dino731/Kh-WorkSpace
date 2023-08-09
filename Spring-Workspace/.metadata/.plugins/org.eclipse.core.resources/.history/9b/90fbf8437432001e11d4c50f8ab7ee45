@@ -1,0 +1,30 @@
+package com.kh.spring.board.medel.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.kh.spring.board.medel.vo.Board;
+import com.kh.spring.board.medel.vo.BoardType;
+
+@Repository
+public class BoardDao {
+	
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public List<BoardType> selectBoardTypeList(){
+		return sqlSession.selectList("boardMapper.selectBoardTypeList");
+	}
+	
+	public List<Board> selectList(int currentPage, String boardCode){
+		return sqlSession.selectList("boardMapper.selectList", boardCode);
+	}
+	
+	public int selectListCount(String boardCode) {
+		return sqlSession.selectOne("boardMapper.selectListCount",boardCode);
+	}
+}

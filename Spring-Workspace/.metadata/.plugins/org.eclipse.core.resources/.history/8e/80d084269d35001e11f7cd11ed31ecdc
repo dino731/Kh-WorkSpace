@@ -1,0 +1,13 @@
+package com.kh.spring.board.medel.vo;
+
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class BoardExt extends Board {
+	
+	private boolean hasAttachment;
+	private List<Attachment> attachList;
+
+}

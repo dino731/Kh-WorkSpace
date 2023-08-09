@@ -1,0 +1,8 @@
+package com.kh.spring.common.template;
+
+public class Pagenation {
+	public static PageInfo getPageInfo() {
+		
+	}
+
+}

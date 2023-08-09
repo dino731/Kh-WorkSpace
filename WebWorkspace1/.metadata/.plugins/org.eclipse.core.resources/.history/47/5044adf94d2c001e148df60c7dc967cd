@@ -1,0 +1,160 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="com.kh.model.vo.Person"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>
+		1. 기존 작업 방식대로 스클립틀릿과 표현식을 활용해서 각 영역(scope)에 담겨있는 값 뽑아서
+	</h3>
+
+	<%
+			//requestScope에 담긴 값 뽑기
+			String classRoom = (String) request.getAttribute("classRoom"); // d강의장
+			Person student	 = (Person) request.getAttribute("student"); // person객체
+			
+			// sessionScope에 담긴 값 뽑기
+			String academy = (String)session.getAttribute("academy");
+			Person teacher = (Person)session.getAttribute("teacher");
+			
+	%>
+
+	<p>
+		학원명 : <%=academy %> <br/>
+		강의장 : <%=classRoom %><br/>
+		강사 정보 : 민경민, <%=teacher.getAge() %>,<%=teacher.getGender() %><br/>
+		수강생 정보 : 
+		<ul>
+			<li>이름 : 오창정 </li>
+			<li>나이 : <%=student.getAge() %></li>
+			<li>성별 : <%=student.getGender() %></li>
+		</ul>
+
+	</p>
+	
+	<h3>2. EL을 이용해서 쉽게 해당 scope에 저장된 값들 출력하기</h3>
+	<p>
+		El은 getXXX를 통해 값을 빼올 필요 없이 키값만 제시하면 곧바로 접근이 가능하다.<br>
+		내부적으로 해당 Scope영역에 키값의 밸류값을 가져올 수 있다.<br>
+		기본적으로 EL은 jsp 내장 객체를 구분하지 않고 자동적으로 모든 내장객체에<br>
+		키값을 검색해서 존재하는 경우 값을 가져온다.
+	</p>
+	<p>
+		학원명 : ${academy}<br>
+		강의장 : ${classRoom }<br>
+		강사 정보 : 민경민, ${teacher.age }, ${teacher.gender }<br>
+		<!-- 
+			teacher에 접근했을 때 밸류 값의 자료형은 Person임.
+			해당 Person 객체의 각 필드에 담긴 값을 출력하고자 한다면, .필드명으로 접근하면 된다
+			내부적으로 getter메소드를 찾아서 실행된다(즉, getter메소드는 항상 만들어야 한다)
+		 -->
+		수강색 정보 :
+		<ul>
+			<li>이름 : 오창정</li>
+			<li>나이 : ${student.age }</li>
+			<li>성별 : ${student.gender }</li>
+		</ul>
+	</p>
+	
+	<hr>
+	<h3> 3. EL사용할 때 내장 객체들에 저장된 키 값이 동일할 경우
+			scope 값 : ${scope} <br> <!-- 범위가 제일 작은 것 부터  높은 순서로 뜬다  -->
+			<!-- 
+				EL은 공유 범위가 제일 작은 Scope에서 부터 제시된 키 값을 검색한다.
+				page => request => session => application순
+				
+				만약 모든 영역에서 못 찾을 경우 ? => 아무것도 출력 안된다.
+			 -->
+	</h3>
+	<hr>
+	<h3>4. 직접 Scope 영역을 지정해서 접근하기</h3>
+	<%
+		pageContext.setAttribute("scope", "page");
+	%>
+	
+	pageScope에 담긴 값 : ${scope } 또는 ${pageScope.scope }<br>
+	requestScope에 담긴 값 : ${reqeustScope.scope }<br>
+	sessionScope에 담긴 값 : ${sessionScope.scope }<br>
+	applicationScope에 담긴 값 : ${applicationScope.scope }<br><br>
+
+
+	<h2>EL을 활용한 연산</h2>
+	<h3>1. 산술 연산</h3>
+	<p>
+		*기존 방식 <br>
+		10 + 3 = <%=(int) request.getAttribute("big") +(int) request.getAttribute("small") %>
+	</p>
+
+	<p>
+		* EL 방식 연산<br>
+		10 + 3 = ${big+small }<br>
+		10 - 3 = ${big-small }<br>
+		10 * 3 = ${big*small }<br>
+		10 / 3 = ${big/small } 또는 ${big div small }<br>
+		10 % 3 = ${big % small } 또는 ${big mod small }<br>
+	</p>
+
+	<h3>2. 숫자간의 대소 비교 연산</h3>
+	<p>
+		* EL 연산 <br>
+		10 > 3 : ${big > small } 또는 ${big gt small }<br>
+		10 < 3 : ${big < small } 또는 ${big lt small }<br>
+		10 >= 3 : ${big >= small } 또는 ${big ge small }<br>
+		10 <= 3 : ${big <= small } 또는 ${big le small }<br>
+		
+		<!-- 다른 프로그램에서는 안될 수 있기에 예약어 사용을 권장한다  -->
+	
+	</p>
+	<h3>3. 동등비교연산</h3>
+	
+	<p>
+		*El 연산<br>
+		10과 3이 일치합니까> ${big == small } 또는 ${big eq small }<br>
+		big에 담긴 값이 10과 일치합니까? ${big == 10 } 또는 ${big eq 10 }<br>
+		
+		sOne과 sTwo가 일치합니까? ${sOne == sTwo } 또는 ${sOne eq sTow }<br>
+		<!-- El에서 ==(동등)비교는 자바에서의 equals()와 같은 동작을 한다.  -->
+		
+		sOne과 sTwo가 일치하지 않습니까? ${sOne != sTwo } 또는 ${sOne ne sTwo }<br>
+		
+		sOne안에 담긴 값이 "안녕"과 일치 합니까? ${sOne == '안녕' }, ${sOne == "안녕" }<br>
+		<!-- EL에서 문자열 리터럴 제시시 '' "" 상관이 없다.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       -->
+		
+	</p>
+	<h3>4. 객체가 null인지 또는 리스트가 비어있는지 체크하는 연산</h3>
+	<p>
+		* EL 연산 <br>
+		pTwo가 null 입니까? ${pTwo == null } 또는 ${empty pTwo }<br>
+		pOne이 null 입니까? ${pOne == null } 또는 ${empty pOne }<br>
+		
+		lOne이 비어있습니까? ${empty lOne }<br>
+		lTwo가 비어있습니까? ${empty lTwo }<br>
+		
+	</p>
+	
+	<h3>5. 논리연산자</h3>
+	<p>
+		* EL 연산 <br>
+		AND 연산 : ${true && true } 또는 ${true and true }<br>
+		OR 연산 	: ${ true || true } 또는 ${true or true }<br>
+	</p>
+	
+	<p>
+		* EL 연산에서 배운 "키워드"만 가지고 써볼 것
+		1. big이 small보다 크고 lOne이 텅 비어있습니까? ${big gt small and empty lOne } <br>
+		2. big과 small의 곱은 4의 배수입니까? ${}<br>
+		3. lTwo가 텅 비어있지 않거나 또는 sOne에 담긴 값이 "안녕하세요"와 일치합니까? ${} }
+	</p>
+
+
+
+
+
+
+
+</body>
+</html>

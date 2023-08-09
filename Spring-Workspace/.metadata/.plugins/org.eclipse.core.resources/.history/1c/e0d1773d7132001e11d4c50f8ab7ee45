@@ -1,0 +1,10 @@
+package com.kh.spring.board.medel.service;
+
+import java.util.List;
+
+import com.kh.spring.board.medel.vo.Board;
+
+public interface BoardService { 
+	public List<Board> selectList(int currentPage, String boardCode);
+
+}

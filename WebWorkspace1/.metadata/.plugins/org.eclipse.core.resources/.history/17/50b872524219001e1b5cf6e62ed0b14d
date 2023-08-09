@@ -1,0 +1,79 @@
+
+<%@ page import="com.kh.board.model.vo.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	Board b = (Board)request.getAttribute("b");
+	Attach at = (Attachment) request.getAttribute("at");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+   <%@ include file="/views/common/menubar.jsp" %>
+   
+   <div class="outer">
+      <br>
+      <h2 align="center">일반게시판 상세보기</h2>
+      <br>
+      
+      <table id="detail-area" align="center" border="1">
+      <tr>
+         <th width="70">카테고리</th>
+         <th width="70">공통</th>
+         <th width="70">제목</th>
+         <th width="350">제목입니당</th>
+      </tr>
+      <tr>
+         <th>작성자</th>
+         <td>후추</td>
+         <th>작성일</th>
+         <td>2023-07-03</td>
+      </tr>   
+      <tr>
+         <th>내용</th>
+         <td colspan="3">
+            <p style="height:200px;">
+            글내용
+            </p>
+         </td>
+      </tr>
+      <tr>
+         <th>첨부파일</th>
+         <td colspan="3">
+            첨부파일 없음
+         </td>
+      </tr>
+      </table>
+      
+      <br>
+   <div align="center">
+      <a href="<%=contextPath %>/list.bo?" class="btn btn-secondary btn-sm">목록</a>
+      <a href="<%=contextPath %>/update.bo?bno=1" class="btn btn-warrning btn-sm">수정</a>   
+      <a href="<%=contextPath %>/delete.bo?bno=1" class="btn btn-danger btn-sm">삭제</a>   
+   </div>
+   
+   <br>
+   
+   <div id="reply-area">
+      <table border="1" align="center">
+         <tr>
+            <th>댓글 작성</th>
+            <td>
+               <textarea cols="50" rows="3" style="resize:none;" id="replayContent"></textarea>
+            </td>
+            <td>
+               <button onclick="insertReply();">댓글 등록</button>
+            </td>
+         </tr>
+      </table>
+   </div>
+   </div>
+   
+
+</body>
+</html>

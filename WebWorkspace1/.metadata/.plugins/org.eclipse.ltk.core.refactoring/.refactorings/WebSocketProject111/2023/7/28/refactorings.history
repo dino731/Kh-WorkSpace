@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;WebSocketProject/WebContent/WEB-Inf&apos; to &apos;WEB-INF&apos;" description="Rename resource &apos;WEB-Inf&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="WebContent/WEB-Inf" name="WEB-INF" stamp="1688952563412" updateReferences="true"/>
+</session>

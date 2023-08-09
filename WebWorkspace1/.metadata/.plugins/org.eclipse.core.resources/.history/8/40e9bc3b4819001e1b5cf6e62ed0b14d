@@ -1,0 +1,34 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.outer{
+		height:550px;
+	}
+	
+	#enroll-form>table{border: 1px solid white;}
+	#enroll=form input, #enroll-form textarea{
+	width:100%;
+	box-sizing: border-box;
+	}
+</style>
+</head>
+<body>
+
+	<%@ include file="/views/common/menubar.jsp" %>
+	<div class="outer">
+		<br>
+		<h2 align="center">일반게시판 작성하기</h2>
+		<br>
+		<form action="<%=contextPath %>/insert.bo" id="enroll-form" method="POST" enctype="multipart/form-data">
+			<!--  -->
+		
+		</form>
+	</div>
+
+</body>
+</html>

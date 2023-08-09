@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+<!-- namespace : 해당 mapper 파일의 고유 명칭 -->
+
+<!-- 
+	*DML문일 경우
+	<insert id="각 sql문들을 식별가능한 식별자" parameterType="전달 받은 데이터의 자료형 or 별칭">
+	</insert>
+	<update></update>
+	<delete></delete>
+ -->
+<insert id="insertMember">
+	INSERT INTO MEMBER
+	(USER_NO,
+	 USER_ID,
+	 USER_PWD,
+	 USER_NAME,
+	 EMAIL,
+	 BIRTHDAY,
+	 GENDER,
+	 PHONE,
+	 ADDRESS,
+	 )VALUES(
+	 SEQ_UNO.NEXTVAL,
+	 #{userId},
+	 #{userPwd),
+	 #{userName),
+	 #{email),
+	 #{birthday),
+	 #{phone),
+	 #{address),
+	 )
+	
+</insert>
+
+</mapper>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;4_JSP_Project/src/com/kh/common/model/vo/PgeInfo.java&apos; to &apos;PageInfo.java&apos;" description="Rename resource &apos;PgeInfo.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/com/kh/common/model/vo/PgeInfo.java" name="PageInfo.java" stamp="1688091952607" updateReferences="true"/>
+</session>

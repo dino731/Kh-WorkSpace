@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;TimeForMaker/src/main/java/mymain&apos; to &apos;mypage&apos;" description="Rename resource &apos;mymain&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/java/mymain" name="mypage" stamp="1689793918500" updateReferences="true"/>
+</session>

@@ -1,0 +1,66 @@
+package com.kh.board.model.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.ibatis.session.SqlSession;
+
+import com.kh.board.model.dao.BoardDao;
+import com.kh.board.model.vo.Board;
+import com.kh.board.model.vo.Reply;
+import com.kh.common.Template;
+import com.kh.common.model.vo.PageInfo;
+
+public class BoardService {
+	private BoardDao dao = new BoardDao();
+	
+	public int selectListCount() {
+		SqlSession sqlSession = Template.getSqlSession();
+		int listCount = dao.selectListCount(sqlSession);
+		sqlSession.close();
+		return listCount;
+		
+	}
+	
+	public ArrayList<Board> selectList(PageInfo pi){
+		SqlSession sqlSession = Template.getSqlSession();
+		ArrayList<Board> list = dao.selectList(sqlSession, pi);
+		sqlSession.close();
+		return list;
+	}
+	public int boardCount(int boardNo) {
+		SqlSession sqlSession = Template.getSqlSession();
+		int result = dao.boardCount(sqlSession, boardNo);
+		if(result >0) {
+			sqlSession.commit();
+		}else {
+			sqlSession.rollback();
+		}
+		sqlSession.close();
+		return result;
+		}
+	
+	public Board boardDetailList(int boardNo){
+		SqlSession sqlSession = Template.getSqlSession();
+		Board b = dao.boardDetailList(sqlSession, boardNo);
+		sqlSession.close();
+		return b;
+	}
+//	public ArrayList<Reply> boardReply(int boardNo){
+//		
+//		
+//	}
+	public int selectSearchCount(HashMap<String, String>map) {
+		SqlSession sqlSession = Template.getSqlSession();
+		int searchCount = dao.selectSearchCount(sqlSession, map);
+		sqlSession.close();
+		return searchCount;
+	}
+	public ArrayList<Board> selectSearchList(HashMap<String, String>map, PageInfo pi){
+		SqlSession sqlSession = Template.getSqlSession();
+		ArrayList<Board>list = dao.selectSearchList(sqlSession, map, pi);
+		sqlSession.close();
+		return list;
+	}
+
+}

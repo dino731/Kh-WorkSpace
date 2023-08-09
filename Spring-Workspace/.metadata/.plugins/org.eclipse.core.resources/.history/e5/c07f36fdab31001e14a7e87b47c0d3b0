@@ -1,0 +1,24 @@
+package com.kh.spring;
+
+import lombok.extern.slf4j.Slf4j;
+
+// Spring log 4 j
+@Slf4j
+public class LogTest {
+
+	/*
+	 * Logging
+	 * - 콘솔로그 : System.out.printXX 보다 효율적인 로그관리가 가능하다.
+	 * 
+	 * 
+	*/
+	public static void main(String[] args) {
+		log.info("info");
+		log.error("error -{}","에러메세지");
+		
+		//INFO : com.kh.spring.LogTest - info
+		//ERROR: com.kh.spring.LogTest - error -에러메세지 // {}안으로 메세지가 들어간다.
+
+	}
+
+}

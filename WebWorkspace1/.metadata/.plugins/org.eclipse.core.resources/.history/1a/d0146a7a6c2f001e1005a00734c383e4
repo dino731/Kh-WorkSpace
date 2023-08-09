@@ -1,0 +1,42 @@
+package com.kh.board.model.service;
+
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.SqlSession;
+
+import com.kh.board.model.dao.BoardDao;
+import com.kh.board.model.vo.Board;
+import com.kh.common.Template;
+import com.kh.common.model.vo.PageInfo;
+
+public class BoardService {
+	private BoardDao dao = new BoardDao();
+	
+	public int selectListCount() {
+		SqlSession sqlSession = Template.getSqlSession();
+		int listCount = dao.selectListCount(sqlSession);
+		sqlSession.close();
+		return listCount;
+		
+	}
+	
+	public ArrayList<Board> selectList(PageInfo pi){
+		SqlSession sqlSession = Template.getSqlSession();
+		ArrayList<Board> list = dao.selectList(sqlSession, pi);
+		sqlSession.close();
+		return list;
+	}
+	public int boardCount(int boardNo) {
+		SqlSession sqlSession = Template.getSqlSession();
+		int count = dao.boardCount(sqlSession);
+		sqlSession.close();
+		return count;
+		}
+	public ArrayList<Board> boardDetailList(int boardNo){
+		SqlSession sqlsession = Template.getSqlSession();
+		ArrayList<Board> b = dao.boardDetailList(sqlSession);
+		sqlSession.close();
+		return b;
+	}
+
+}

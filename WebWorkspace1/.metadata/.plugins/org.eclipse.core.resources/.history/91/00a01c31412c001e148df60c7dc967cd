@@ -1,0 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="com.kh.model.vo.Person"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3>
+		1. 기존 작업 방식대로 스클립틀릿과 표현식을 활용해서 각 영역(scope)에 담겨있는 값 뽑아서
+	</h3>
+
+	<%
+			//requestScope에 담긴 값 뽑기
+			String classRoom = (String) request.getAttribute("classRoom"); // d강의장
+			Person student	 = (Person) request.getAttribute("student"); // person객체
+	%>
+
+	<p>
+		강의장 : <%=classRoom %>
+		수강생 정보 : 
+		<ul>
+			<li>이름 : 오창정 </li>
+			<li>나이 : <%=student.getAge() %></li>
+			<li>성별 : <%=student.getGender() %></li>
+		</ul>
+
+	</p>
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

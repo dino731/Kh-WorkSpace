@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.outer{
+		height:550px;
+	}
+	.List-area{
+		border: 1px solid white;
+		text-align:center;
+	}
+	.List-area>tbody>tr:hover{
+		background:gray;
+		cursor:pointer;
+	}
+</style>
+</head>
+<body>
+
+</body>
+</html>

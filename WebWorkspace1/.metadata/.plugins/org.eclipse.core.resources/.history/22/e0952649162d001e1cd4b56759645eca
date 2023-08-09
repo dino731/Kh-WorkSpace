@@ -1,0 +1,14 @@
+package com.kh.common;
+
+// 마이바티스 탬플릿
+public class Template {
+	
+	// mybatis-config.xml 파일을 읽어들여서
+	// 해당 db와 접속된 SqlSession객체를 생성해서 반환
+	SqlSession SqlSession = null;
+	
+	//SqlSession 객체를 생성하기 위해 SqlSessionFactory 객체가 필요
+	//SqlSessionFactory를 생성하기 위해서는 SqlSessionFactoryBuilder가 필요하다.
+	
+	
+}

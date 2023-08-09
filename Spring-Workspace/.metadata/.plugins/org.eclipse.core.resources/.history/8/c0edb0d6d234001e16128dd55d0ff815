@@ -1,0 +1,13 @@
+package com.kh.spring.common;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class Utils {
+
+	// 변경된 이름을 돌려주면서, 원본 파일을 변경된 파일 이름으로 서버에 저장시키는 메소드
+	public static String saveFile(MultipartFile upfile, String savePath) {
+		
+		
+	}
+}

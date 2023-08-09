@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;4_JSP_Project/WebContent/views/board/thumbnailLIstView.jsp&apos; to &apos;thumbnailListView.jsp&apos;" description="Rename resource &apos;thumbnailLIstView.jsp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="WebContent/views/board/thumbnailLIstView.jsp" name="thumbnailListView.jsp" stamp="1688528278575" updateReferences="true"/>
+</session>

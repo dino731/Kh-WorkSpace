@@ -1,0 +1,14 @@
+package com.kh.board.model.service;
+
+import com.kh.board.model.dao.BoardDao;
+import com.kh.common.Template;
+
+public class BoardService {
+	private BoardDao dao = new BoardDao();
+	
+	public int selectListCount() {
+		SqlSession sqlsession = Template.getSqlSession();
+		
+	}
+
+}

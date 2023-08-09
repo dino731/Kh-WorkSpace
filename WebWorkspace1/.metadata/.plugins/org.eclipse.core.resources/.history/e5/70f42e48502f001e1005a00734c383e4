@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+<!-- namespace : 해당 mapper 파일의 고유 명칭 -->
+
+<!-- 
+	*DML문일 경우
+	<insert id="각 sql문들을 식별가능한 식별자" parameterType="전달 받은 데이터의 자료형 or 별칭">
+	</insert>
+	<update></update>
+	<delete></delete>
+	
+	* SELECT문 일 경우
+	<select id="식별자" parameterType="자료형 or 별칭" resultType="조회 결과로 반환하고자 하는 자바 타입" 또는 resultMap="조회 결과를 뽑아서 매핑할 resultMap의 id값">
+	-> parameterType속성은 전달 받을 값이 없으면 생략 가능.
+	=> 반드시 ewsultType이나, resultMap 둘중 하나를 작성하여 결과 값에 대한 타입을 지정해야함
+	
+	*DML문의 경우 어차피 실행결과가 처리된 행의 개수(INT)이기 때문에 resultType이나 resultMap이 불필요하다
+	* ? 대신에 sql문에 전달된 객체로 부터 값을 꺼낼때 #{필드명, 변수명, map의 키 값}을 이용
+										   ${필드명, 변수명, map의 키 값} : ''제거된 상태로 추가.(SqlInjection공격에 안전하지 않음)
+ -->
+ <select id="loginMember" resultType="member" parameterType="member">
+ 	SELECT  USER_NO,
+		    USER_ID,
+		    USER_PWD,
+		    USER_NAME,
+		    EMAIL,
+		    BIRTHDAY,
+		    GENDER,
+		    PHONE,
+		    ADDRESS
+	FROM MEMBER
+	WHERE USER_ID = #{userId}
+		AND USER_PWD = #{userPwd}
+		AND STATUS = 'Y'
+ </select>
+<insert id="insertMember" parameterType="member">
+   INSERT INTO MEMBER
+   (USER_NO,
+    USER_ID,
+    USER_PWD,
+    USER_NAME,
+    EMAIL,
+    BIRTHDAY,
+    GENDER,
+    PHONE,
+    ADDRESS
+   )VALUES(
+    SEQ_UNO.NEXTVAL,
+    #{userId},
+    #{userPwd},
+    #{userName},
+    #{email},
+    #{birthday},
+    #{gender},
+    #{phone},
+    #{address}   
+   )
+</insert>
+
+</mapper>

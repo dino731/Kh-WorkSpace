@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;WebSocketProject/src/com/kh/websocket/JsonDcoder.java&apos; to &apos;JsonDecoder.java&apos;" description="Rename resource &apos;JsonDcoder.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/com/kh/websocket/JsonDcoder.java" name="JsonDecoder.java" stamp="1688957232662" updateReferences="true"/>
+</session>
