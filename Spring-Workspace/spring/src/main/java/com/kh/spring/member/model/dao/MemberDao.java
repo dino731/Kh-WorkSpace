@@ -32,6 +32,10 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectOne", userId);
 	}
 	
+	public void updateMemberChangePwd() {
+		sqlSession.update("memberMapper.updateMemberChangePwd");
+		/* void는 return 이 있다면 오류가 난다.*/
+	}
 	
 	
 	

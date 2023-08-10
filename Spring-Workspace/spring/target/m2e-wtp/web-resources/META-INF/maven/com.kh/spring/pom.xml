@@ -253,6 +253,36 @@
 			<version>0.2.7</version>
 		</dependency>
 		
+		<!--  spring quartz 의존성 파일 추가 -->
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
+      <dependency>
+          <groupId>org.quartz-scheduler</groupId>
+          <artifactId>quartz-jobs</artifactId>
+          <version>2.3.2</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+      
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context-support</artifactId>
+          <version>${org.springframework-version}</version>
+      </dependency>
+      <!-- Spring Quartz 끝 -->
+      
+      <!-- 웹소켓 -->
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-websocket</artifactId>
+          <version>${org.springframework-version}</version>
+      </dependency>
+		
 	</dependencies>
     <build>
         <plugins>

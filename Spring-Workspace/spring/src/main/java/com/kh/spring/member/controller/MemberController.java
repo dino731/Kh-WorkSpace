@@ -7,11 +7,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 // 단, 클래스레벨에 @RequestMapping이 존재하지 않는경우 메서드레벨에서 단독으로 요청을 처리한다.
 @SessionAttributes({"loginUser"})
 // Model에 추가된 값의 key와 일치하는 값이 있으면 해당값을 session scope로 이동시킨다.
-public class MemberController {
+public class MemberController extends QuartzJobBean{
 	
 	
 	/*
@@ -245,6 +248,9 @@ public class MemberController {
 		String url = "";
 		if(loginUser != null && bcrypotPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			//로그인 성공
+			if(loginUser.getChangePwd().equals("Y")) {
+				model.addAttribute("alertMsg", "비밀번호를 변경해주세요");
+			}
 			model.addAttribute("loginUser",loginUser);
 			url = "redirect:/";
 		}else {
@@ -456,9 +462,25 @@ public class MemberController {
 		log.info("크론탭 방식 테스트 ");
 	}
 	
+	public void testQuartz() {
+//		log.info("테스트콰츠");
+	}
 	
+	/*
+	 * 회원 정보 확인 스케줄러
+	 * 매일 오전 1시에 모든 사용자의 정보를 검색하여 사용자가 비밀번호를 안바꾼지 3개월이 지났다면, changePwd이 칼럼에 값을 Y로 변경
+	 * 
+	 * 사용자가 로그인 했을 때 changePwd값이 Y라면 비밀번호 변경페이지로 이동
+	 * */
+	@Override
+	public void executeInternal(JobExecutionContext context) throws JobExecutionException{
+		// JobDateMap으로 등록한 bean객체 가져옴
+		MemberService mService = (MemberService) context.getMergedJobDataMap().get("mService");
+		mService.updateMemberChangePwd();
+		
+	}
 	
-	
+	/* 지현님 세시에 튈까요?YYYYYYYYYYYYYYYYYYYYYYYY ㅎ....?ㅛ? ㅛㅛㅛㅛㅛㅛㅛㅛㅛㅛㅛ */
 	
 	
 	

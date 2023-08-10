@@ -5,30 +5,47 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.service.BoardServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class FileDeleteScheduler {
 
-	public static void main(String[] args) {
+	@Autowired
+	public BoardService boardService;
+	
+	@Autowired
+	public ServletContext application;
+	
+//	@Scheduled(cron = "0/1 * * * * *")
+	//매달 1일에 아래 함수 실행할 예정 (초 분 시 일 요일 년도)
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void deleteFile() {
+
 		
-		BoardService boardService = new BoardServiceImpl();
+		/* BoardService boardService = new BoardServiceImpl(); */
 		
 		// 1) board테이블 안에있는 모든 파일 목록 조회.
-		//List<String> list = boardService.selectFileList();
-		List<String> list = new ArrayList();
-		list.add("2023080910491329673.png");
-		list.add("2023080914375877010.jpg");
-		list.add("2023080914165571951.jpg");
-		list.add("2023080914363570809.jpg");
-		list.add("2023080914454558039.jpg");
+		List<String> list = boardService.selectFileList();
+//		List<String> list = new ArrayList();
+//		list.add("2023080910491329673.png");
+//		list.add("2023080914375877010.jpg");
+//		list.add("2023080914165571951.jpg");
+//		list.add("2023080914363570809.jpg");
+//		list.add("2023080914454558039.jpg");
 		
 		// 2) resources/images/board/P OR P폴더들 아래에있는 모든 이미지 파일 목록 조회.
 		
-		File path = new File("C:\\Spring-Workspace\\spring\\src\\main\\webapp\\resources\\images\\board\\P");
+		File path = new File(application.getRealPath("/resources/images/board/P"));
 		File[] files = path.listFiles();
 		// path가 참조하고있는 폴더에 들어가있는 모든 파일을 얻어와서 file배열로 반환해주는 녀석.
 		

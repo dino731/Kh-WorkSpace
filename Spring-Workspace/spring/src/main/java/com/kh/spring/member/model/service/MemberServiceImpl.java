@@ -41,7 +41,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectOne(userId);
 	}
 
-	
+	@Override
+	public void updateMemberChangePwd() {
+		memberDao.updateMemberChangePwd();
+	}
 	
 	
 	

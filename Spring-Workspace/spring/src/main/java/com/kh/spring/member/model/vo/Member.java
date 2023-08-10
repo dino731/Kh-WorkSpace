@@ -51,4 +51,5 @@ public class Member {
 	private String gender;
 	private String birthday;
 	private boolean enable;
+	private String changePwd;
 }

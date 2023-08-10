@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chattingMapper">
+<insert id="openChatRoom" parameterType="chatRoom" useGeneratedKeys="true">
+	
+	INSERT INTO CHAT_ROOM VALUES
+	(SEQ_CR_NO.NEXTVAL , #{title}, DEFAULT , #{userNo} )
+	<selectKey keyProperty="chatRoomNo" resultType="int" order="AFTER">
+		SELECT SEQ_CR_NO.CURRVAL FROM DUAL
+	</selectKey>
+</insert>
+	<resultMap type="chatRoom" id="chatRoomResultSet">
+		<id column="CHAT_ROOM_NO" property="chatRoomNo"/>
+		<id column="TITLE" property="title"/>
+		<id column="STATUS" property="status"/>
+		<id column="USER_NO" property="userNo"/>
+		<id column="USER_NAME" property="userName"/>
+		<id column="CNT" property="cnt"/>
+	</resultMap>
+	
+	<select id="selectChatRoomList" resultMap="chatRoomResultSet">
+		SELECT
+			CHAT_ROOM_NO,
+			TITLE,
+			USER_NAME,
+			(
+				SELECT
+				 	COUNT(*)
+				FROM CHAT_ROOM_JOIN B
+				WHERE B.CHAT_ROOM_NO = A.CHAT_ROOM_NO
+				) CNT <!-- 스칼라토리??? 스칼라톤??(?)이라고 불림 -->
+		FROM CHAT_ROOM A
+		JOIN MEMBER M USING(USER_NO)
+		WHERE A.STATUS = 'Y'
+		ORDER BY CHAT_ROOM_NO DESC
+	</select>
+	<!-- 채팅메세지 삽입  -->
+	<insert id="insertMessage" parameterType="chatMessage">
+		INSERT INTO CHAT_MESSAGE
+		VALUES (
+			SEQ_CM_NO.NEXTVAL,
+			#{message},
+			#{createDate},
+			#{chatRoomNo},
+			#{userNo}
+		)
+	</insert>
+
+
+
+
+
+</mapper>

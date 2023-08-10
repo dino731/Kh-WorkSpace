@@ -13,4 +13,7 @@ public interface MemberService {
 	public int updateMember(Member m);
 	
 	public Member selectOne(String userId);
+	
+	public void updateMemberChangePwd();
+
 }

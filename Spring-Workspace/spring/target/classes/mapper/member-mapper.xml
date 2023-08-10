@@ -19,6 +19,7 @@
 	<result column="ENROLL_DATE" property="enrollDate"/>
 	<result column="MODIFY_DATE" property="modifyDate"/>
 	<result column="STATUS" property="status"/>
+	<result column="CHANGE_PWD" property="changePwd"/>
 </resultMap> 
 
 <select id="loginUser" parameterType="member" resultMap="memberResultSet">
@@ -42,6 +43,7 @@
 		DEFAULT,
 		#{gender},
 		#{birthday},
+		DEFAULT,
 		DEFAULT
 	)
 </insert>
@@ -59,7 +61,8 @@
 	    gender = #{gender},
 	    phone  = #{phone},
 	    address= #{address},
-	    modify_date = SYSDATE
+	    modify_date = SYSDATE,
+	    CHANGE_PWD = 'N'
 	WHERE USER_ID = #{userId} AND STATUS ='Y'
 </update>
 
@@ -69,7 +72,11 @@
 	 WHERE USER_ID = #{userId} AND STATUS = 'Y'
 </select>
 
-
+<update id="updateMemberChangePwd">
+   UPDATE MEMBER
+   SET CHANGE_PWD = 'Y'
+   <![CDATA[WHERE ADD_MONTHS(MODIFY_DATE,3) < SYSDATE]]>
+</update>
 
 
 
