@@ -6,16 +6,23 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="Reply"/>
+		<item key="selection" value="main"/>
 		<list key="findhistory">
+			<item value="errorMsg"/>
+			<item value="main"/>
+			<item value="insertMenu"/>
+			<item value="mavenrepository "/>
+			<item value="jstl"/>
+			<item value="ojdbc6 "/>
+			<item value="boardTypeList"/>
+			<item value="memberLog"/>
+			<item value="&#x09;List&lt;ChatMessage&gt; list = service.joinChatRoom(join);"/>
+			<item value="&lt;link href=&quot;/resources/css/main-style.css&quot; rel=&quot;stylesheet&quot;&gt;"/>
 			<item value="reply"/>
 			<item value="insert"/>
 			<item value="insertAttachment"/>
 			<item value="채팅"/>
 			<item value="insert.me"/>
-			<item value="date"/>
-			<item value="ojd"/>
-			<item value="od"/>
 		</list>
 		<list key="replacehistory">
 		</list>
@@ -25,6 +32,6 @@
 		<item key="DIALOG_Y_ORIGIN" value="546"/>
 		<item key="DIALOG_WIDTH" value="340"/>
 		<item key="DIALOG_HEIGHT" value="454"/>
-		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|맑은 고딕"/>
 	</section>
 </section>

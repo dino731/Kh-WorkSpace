@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring.chat.model.service.ChatService;
+import com.kh.spring.chat.model.vo.ChatMessage;
 import com.kh.spring.chat.model.vo.ChatRoom;
 import com.kh.spring.chat.model.vo.ChatRoomJoin;
 import com.kh.spring.member.model.vo.Member;
@@ -73,11 +74,37 @@ public class ChatController {
 	join.setChatRoomNo(chatRoomNo);
 	
 	// 업무로직- 채팅방의 채팅내용 불러오기. + 채팅방 입장기능
-	return "chat/chatRoom";
-	
+	List<ChatMessage> list = service.joinChatRoom(join);
+	log.info("넘겨받은 list===={]",list);
+	if(list != null) {
+		model.addAttribute("list", list);
+		model.addAttribute("chatRoomNo",chatRoomNo); //session에 올린다.
+		return "chat/chatRoom";
+	}else {
+		ra.addFlashAttribute("alertMsg", "채팅방이 존재하지 않습니다");
+		return "redirect:/chat/chatRoomList";
 	}
-	
-	
-	
+	}
 
+	
+	@GetMapping("/chat/exit/{chatRoomNo}")
+	public String exitChatRoom(
+			@ModelAttribute("loginUser") Member loginUser,
+			@PathVariable("chatRoomNo") int chatRoomNo,
+			ChatRoomJoin join,
+			Model model
+			) {
+	join.setUserNo(loginUser.getUserNo());
+	join.setChatRoomNo(chatRoomNo);
+	
+	int result = service.exitChatRoom(join);
+
+	if (result > 0) {
+		return "redirect:/chat/chatRoomList";
+	} else {
+		model.addAttribute("errorMsg", "채팅방 나가기에 실패함");
+		return "common/errorPage";
+	}
+	}
 }
+

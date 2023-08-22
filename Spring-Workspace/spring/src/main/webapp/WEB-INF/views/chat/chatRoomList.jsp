@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="${contextPaht }/resources/css/main-style.css" rel="stylesheet">
-<link href="${contextPaht }/resources/css/chat-style.css" rel="stylesheet">
+<link href="${contextPath }/resources/css/main-style.css" rel="stylesheet">
+<link href="${contextPath }/resources/css/chat-style.css" rel="stylesheet">
 <style>
 	.content{
 	height:100%;

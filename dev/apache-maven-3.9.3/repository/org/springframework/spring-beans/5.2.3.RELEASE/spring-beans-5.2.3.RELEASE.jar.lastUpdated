@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Aug 21 10:10:32 KST 2023
+https\://repo.maven.apache.org/maven2/.lastUpdated=1692580232542
+@default-Spring\ Plugins-https\://repo.spring.io/plugins-release/.lastUpdated=1692580231834
+https\://repo.spring.io/plugins-release/.error=Could not transfer artifact org.springframework\:spring-beans\:jar\:5.2.3.RELEASE from/to Spring Plugins (https\://repo.spring.io/plugins-release/)\: Access denied to https\://repo.spring.io/plugins-release/org/springframework/spring-beans/5.2.3.RELEASE/spring-beans-5.2.3.RELEASE.jar. Error code 401, 

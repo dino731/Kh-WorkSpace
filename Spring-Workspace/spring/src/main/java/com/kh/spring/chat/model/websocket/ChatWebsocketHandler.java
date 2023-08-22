@@ -12,6 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.kh.spring.chat.model.service.ChatService;
 import com.kh.spring.chat.model.vo.ChatMessage;
 
@@ -50,9 +51,9 @@ public class ChatWebsocketHandler extends TextWebSocketHandler{
 	 * */
 	// 클라이언트와 연결 수립 및 통신 준비 완료시 수행되는 메서드
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session)) {
+	public void afterConnectionEstablished(WebSocketSession session) {
 		// WebSocketSession : 웹소켓에 접속요청한 클라이언트의 세션
-		log.info("{} 가 연결됨 : "+ session.getId()); // 세션의 아이디 확인
+		log.info("{} 가 연결됨 : ", session.getId()); // 세션의 아이디 확인
 		sessions.add(session);
 		
 	}
@@ -64,7 +65,7 @@ public class ChatWebsocketHandler extends TextWebSocketHandler{
 	}
 	
 	@Override
-	public void handlerTextMessage(WebSocketSession session, TextMessage message) throws Exception{
+	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
 		
 		// TextMessage : 웹소켓을 이용해 전달된 텍스트가 담겨있는 객체
 		// payload : 전송되는 데이터 (JSON객체로 전달)

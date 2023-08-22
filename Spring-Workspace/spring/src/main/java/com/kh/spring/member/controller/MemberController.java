@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 //@RequestMapping("/member") -> 공통주소(클래스레벨에 선언)
 //localhost:8081/spring/member(공통주소)/login.me(그외주소, 메소드레벨에 선언)
 // 단, 클래스레벨에 @RequestMapping이 존재하지 않는경우 메서드레벨에서 단독으로 요청을 처리한다.
-@SessionAttributes({"loginUser"})
+@SessionAttributes({"loginUser","nextUrl"})
 // Model에 추가된 값의 key와 일치하는 값이 있으면 해당값을 session scope로 이동시킨다.
 public class MemberController extends QuartzJobBean{
 	
@@ -223,7 +223,8 @@ public class MemberController extends QuartzJobBean{
 	public String loginMember(
 							@ModelAttribute Member m , 
 							HttpSession session , 
-							Model model
+							Model model,
+							@SessionAttribute(required = false) String nextUrl
 			) {
 		log.info("찍어보자구 {} , {}",m , m);
 		//암호화 전 로그인 요청처리
@@ -252,7 +253,10 @@ public class MemberController extends QuartzJobBean{
 				model.addAttribute("alertMsg", "비밀번호를 변경해주세요");
 			}
 			model.addAttribute("loginUser",loginUser);
-			url = "redirect:/";
+			url = "redirect:"+(nextUrl != null ? nextUrl : "/");
+			
+			//사용한 nextUrl제거.
+			model.addAttribute("nextUrl", null);
 		}else {
 			model.addAttribute("errorMsg","아이디 또는 비밀번호가 일치하지 않습니다.");
 			url = "common/errorPage";
@@ -455,11 +459,11 @@ public class MemberController extends QuartzJobBean{
 	
 	//@Scheduled(fixedDelay = 1000)// 고정방식
 	public void test() {
-		log.info("1초마다 출력");
+//		log.info("1초마다 출력");
 	}
 	
 	public void testCron() {
-		log.info("크론탭 방식 테스트 ");
+//		log.info("크론탭 방식 테스트 ");
 	}
 	
 	public void testQuartz() {

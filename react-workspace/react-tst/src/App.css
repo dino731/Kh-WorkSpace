@@ -1,43 +1,45 @@
-* {
+.videoWrap {
+  border: 1px solid red;
+  margin: 0 auto; /* 가로 중앙 정렬 */
+  width: 800px;
+  height: 800px;
+  align-items: center;
+}
 
-  margin: 0px;
-  
-  padding: 0px;
-  
-  box-sizing: border-box;
-  
-  }
-  
-  nav {
-  
-  overflow: hidden;
-  
-  }
-  
-  nav li {
-  
-  float: left;
-  
-  width: 50%;
-  
-  list-style-type: none;
-  
-  }
-  
-  .container {
-  
-  width: 400px;
-  
-  margin: auto;
-  
-  text-align: center;
-  
-  border: 1px solid black;
-  
-  }
-  
-  .container table {
-  
-  width: 100%;
-  
-  }
+.videoplayer {
+  border: 1px solid red;
+  margin: 0 auto; /* 가로 중앙 정렬 */
+  width: 750px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.videoFileUploader{
+  border: 1px solid red;
+  margin: 0 auto; /* 가로 중앙 정렬 */
+  width: 750px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.videoFileUploader>input{
+  width: 700px;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+input[type=file]::file-selector-button {
+  width: 100px;
+  height: 30px;
+  background: #e8e8e8;
+  border: 1px solid rgb(77,77,77);
+  border-radius: 5px;
+  border-style: none;
+  cursor: pointer;
+}
+input[type=file]:hover::file-selector-button {
+  background: rgb(215, 215, 215);
+  color: #000000;
+}

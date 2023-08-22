@@ -31,6 +31,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			
 			return true;
 		}else {
+			session.setAttribute("alertMsg", "로그인 후 이용할 수 있습니다.");
+			// 로그인 완료후 이동할 url을 Session영역안에 저장
+			// http://localhost:8081/spring/chat/openChatRoom/1
+			String url = req.getRequestURL().toString();
+			String queryString = req.getQueryString();
+			String nextUrl = url + "?" + queryString;
+			
+			session.setAttribute("nextUrl", nextUrl);
 			
 			res.sendRedirect(req.getContextPath()+"/");
 			return false;

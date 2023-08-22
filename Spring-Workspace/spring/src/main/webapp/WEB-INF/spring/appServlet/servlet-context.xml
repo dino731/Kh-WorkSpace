@@ -5,10 +5,12 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
@@ -84,8 +86,11 @@
 	 	</mvc:interceptor>	
 	 		
 	 	<mvc:interceptor>
-	 		<mvc:mapping path="/board/insert"/>
-	 		<mvc:mapping path="/board/update"/>
+	 		<mvc:mapping path="/board/**"/>
+	 		<mvc:mapping path="/chat/**"/>
+	 		
+	 		<mvc:exclude-mapping path="/chat/chatRoomList"/>
+	 		<mvc:exclude-mapping path="/board/list/*"/>
 	 		<beans:bean class="com.kh.spring.common.interceptor.LoginInterceptor"/>	 		
 	 	</mvc:interceptor>	
 	 		
@@ -104,7 +109,7 @@
 	 <!-- 웹소켓 시작 -->
 	 
 	 <!-- webSocket요청시 해당 요청을 처리해줄 핸들러 클래스 등록 -->
-	 <beans:bean id="chatHandler" class="com.kh.spring.chat.medel.websocket.ChatWebsocketHandler"/>
+	 <beans:bean id="chatHandler" class="com.kh.spring.chat.model.websocket.ChatWebsocketHandler"/>
 	 <websocket:handlers>
 	 	<!-- 웹소켓 요청주소를 처리할 bean객체 지정-->
 	 	<websocket:mapping handler="chatHandler" path="/chat"/>
@@ -115,19 +120,55 @@
 	 						요청 관련 데이터중 httpSession(로그인 정보, 채팅방 번호)을 가로채서
 	 						webSocketSession에게 넣어줌
 	 		 -->
-	 		<beans:bean class=""/>
+	 	<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+
 	 	</websocket:handshake-interceptors>
 	 	<!--  -->
 	 	<websocket:sockjs/>
 	 </websocket:handlers>
 	 <!-- 웹소켓 끝 -->
 	 
+	 <aop:aspectj-autoproxy proxy-target-class="false"/>
+	 <!-- 
+	 	proxy-target-class : 프록시 객체 생성시 interface or class로 프록시 객체를 생성할지 정하는 구문
+	 	기본값 : true -> 프록시 객체를 생서이 "클래스"로 생성함
+	 	일반적으로 프록시 객체는 자바에서 기본적으로 제공하는 다이나믹 프록시 interface으로 생성한다.
+	 	클래스로 만들게 되면 tglib라이브러리를 이용하여 프록시 객체를 생성하는데 성능상의 이유로 프록시 객체 생성시 interface를 활용하는걸 권장한다.
+	 	ㅋㅋ- 지현님 박제 -
+	 	
+	 	내가 만든 공통 코드, 모듈을 메서드 단위로 적용시킬 때 사용을 하고, interceptor보다 좀더 세밀한 조정이 필요할 때 사용한다.
+	 	
+	 	interceptor : dispathcherServlet이 controller를 호출하기 전/후로 끼어들어 실행하기 때문에
+	 	controller에게 전달하기전의 request, response의 데이터를 처리하기에 좋으며, Application전역에 사용할 객체에 대한 설정을 하기 좋다.
+	 	
+	 	AOP : 주로 "트랜잭션처리(@Transactional)", 로깅처리, 로그인 처리등 비즈니스단에 공통적으로 필요한 메서드를 좀 더 세밀하게 조정할 때 사용
+	  -->
+	 
 	 <!-- 
 	 	스프링 요청/응답 흐름
-	  요청 -> Filter -> DispatcherServlet(HandlerMapping) -> Interceptor -> Controller -> Service -> DAO 
-	  																								 | DB 	
-	  응답 <- Filter <- DispatcherServlet(HandlerMapping) <- Interceptor <- Controller <- Service <- DAO
+	  요청 -> Filter -> DispatcherServlet(HandlerMapping) -> Interceptor -> Controller -> AOP -> Service -> DAO 
+	  																								        | DB 	
+	  응답 <- Filter <- DispatcherServlet(HandlerMapping) <- Interceptor <- Controller <- AOP <- Service <- DAO
 	  -->
+	  
+	  <!-- 
+	  	사용자가 어떤 URL로 요청시 문서가 읽혀지는지
+	  	HandlerMapping을 통해서 url요청이 올 경우 어떤 controller구동시킬지 정의해야한다.
+	  	1. 요청시 실행될 controller클래스들을 bean 등록해두기
+	  	<beans:bean class="kh.spring.member.MemberController" id="loginController"/>
+	  	// 등록할 컨트롤러 개수만큼 bean객체 직접 등록
+	  	
+	  	2. 어떤 url로 요청들어온 것을 처리할지 매핑도 직접 해줘야함.
+	  	<beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	  		<bean:property name="mapping'>
+	  			<bean:prop key="login.me">loginContoroller</beans:prop>
+	  			<bean:prop key="insert.me">loginContoroller</beans:prop>
+	  		</bean:property>
+	  	</beans:bean>
+	  	
+	  	*HandlerMapping : 요청받은 url주소에 따라 해당 주소를 처리할 컨드롤러를 연결하는 역할
+	  	-> 기존에는 xml방식을 사용했지만 최근에는 @RequestMapping / @getMapping /@posetMapping
+	   -->
 	 	
 	
 	

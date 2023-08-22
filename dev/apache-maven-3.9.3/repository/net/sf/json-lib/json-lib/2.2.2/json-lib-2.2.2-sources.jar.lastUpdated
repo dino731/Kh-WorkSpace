@@ -1,6 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Aug 03 09:40:26 KST 2023
+#Mon Aug 21 17:13:41 KST 2023
 https\://www.datanucleus.org/downloads/maven2/.lastUpdated=1691023226569
 https\://repo.maven.apache.org/maven2/.lastUpdated=1691023226637
+@default-Spring\ Plugins-https\://repo.spring.io/plugins-release/.lastUpdated=1692605621840
 https\://repo.maven.apache.org/maven2/.error=
 https\://www.datanucleus.org/downloads/maven2/.error=
+https\://repo.spring.io/plugins-release/.error=Could not transfer artifact net.sf.json-lib\:json-lib\:jar\:sources\:2.2.2 from/to Spring Plugins (https\://repo.spring.io/plugins-release/)\: Access denied to https\://repo.spring.io/plugins-release/net/sf/json-lib/json-lib/2.2.2/json-lib-2.2.2-sources.jar. Error code 401, 

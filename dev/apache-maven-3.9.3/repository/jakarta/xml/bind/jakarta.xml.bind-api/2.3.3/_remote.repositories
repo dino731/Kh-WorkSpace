@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Aug 17 15:06:52 KST 2023
+jakarta.xml.bind-api-2.3.3.jar>central=
+jakarta.xml.bind-api-2.3.3.pom>central=
+jakarta.xml.bind-api-2.3.3-sources.jar>central=

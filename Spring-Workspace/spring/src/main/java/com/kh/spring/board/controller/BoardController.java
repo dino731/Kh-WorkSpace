@@ -88,7 +88,6 @@ public class BoardController {
 
 	@GetMapping("/insert/{boardCode}")
 	public String enrollBoard(@PathVariable("boardCode") String boardCode, Model model) {
-
 		return "board/boardEnrollForm";
 	}
 

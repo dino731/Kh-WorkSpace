@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.spring.chat.model.vo.ChatMessage;
 import com.kh.spring.chat.model.vo.ChatRoom;
+import com.kh.spring.chat.model.vo.ChatRoomJoin;
 
 public interface ChatService {
 	
@@ -12,5 +13,9 @@ public interface ChatService {
 	List<ChatRoom> selectChatRoomList();
 	
 	int insertMessage(ChatMessage cm);
+	
+	List<ChatMessage> joinChatRoom(ChatRoomJoin join);
+	
+	int exitChatRoom(ChatRoomJoin join);
 
 }

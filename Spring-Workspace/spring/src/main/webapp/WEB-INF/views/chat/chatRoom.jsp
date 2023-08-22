@@ -75,49 +75,25 @@
 	
 		<div class="chatting-area">
          <div id="exit-area">
-            <button class="btn btn-outline-danger" id="exit-btn">나가기</button>
+            <button class="btn btn-outline-danger" id="exit-btn" onclick="location.href='${contextPath}/chat/exit/${chatRoomNo}'">나가기</button>
          </div>
          <ul class="display-chatting">
-            <li class="myChat">
-               <span class="chatDate">2023년 08월 10일 14:14:30</span>
-               <p class="chat">안녕!</p>
-            </li>
-            
-            <li>
-               <b>상대방</b>
-               <p class="chat">반가워</p>
-               <span class="chatDate">2023년 08월 10일 14:15:30</span>   
-            </li>
-            <li class="myChat">
-               <span class="chatDate">2023년 08월 10일 14:14:30</span>
-               <p class="chat">안녕!</p>
-            </li>
-            
-            <li>
-               <b>상대방</b>
-               <p class="chat">반가워</p>
-               <span class="chatDate">2023년 08월 10일 14:15:30</span>   
-            </li>
-            <li class="myChat">
-               <span class="chatDate">2023년 08월 10일 14:14:30</span>
-               <p class="chat">안녕!</p>
-            </li>
-            
-            <li>
-               <b>상대방</b>
-               <p class="chat">반가워</p>
-               <span class="chatDate">2023년 08월 10일 14:15:30</span>   
-            </li>
-            <li class="myChat">
-               <span class="chatDate">2023년 08월 10일 14:14:30</span>
-               <p class="chat">안녕!</p>
-            </li>
-            
-            <li>
-               <b>상대방</b>
-               <p class="chat">반가워</p>
-               <span class="chatDate">2023년 08월 10일 14:15:30</span>   
-            </li>
+         <c:forEach items="${list }" var="msg">
+         	<c:if test="${msg.userNo == loginUser.userNo }">
+         		<li class="myChat">
+	         		<span class="chatDate">${msg.createDate }</span>
+	                <p class="chat">${msg.message }</p>
+         		 </li>
+         	</c:if>
+         	<c:if test="${msg.userNo ne loginUser.userNo }">
+         		 <li>
+	               <b>${msg.userName }</b>
+	               <p class="chat">${msg.message }</p>
+	               <span class="chatDate">${msg.createDate}</span>   
+	            </li>
+         	</c:if>
+         </c:forEach>
+
          </ul>
          
          <div class="input-area">
@@ -126,8 +102,30 @@
          </div>
          
       </div>
+      
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script>
+		const userNo =  "${loginUser.userNo}";
+		const userName = "${loginUser.userName}";
+		const chatRoomNo = "${chatRoomNo}";
+		const contextPath =  "${contextPath}";
+		// 로그인이 되어있는 경우에만 WebSocket객체 생성할 예정
+		let chattingSock = new SockJS(contextPath+"/chat");
+		// /chat라는 요청주소를 통해 웹소켓 객체 생성 완료. websocket프로토콜을 이용해서 해당 주소와 데이터를 실시간으로 송/수신할 수 있다.
+		
+		/* 
+			WebSocket
+			- 브라우저와 웹서버간의 통신을 지원하는 프로토콜.
+			
+			* 전이중 통신 (Full Duplex) : 두대의 단말기가 데이터를 동시에 송/수신하기 위해 각각 독립된 회선을 사용하는 통신 방식
+			
+			- HTML5부터 지원
+			- Java에서는 7버전부터 지원 (8버전 이상에서 사용을 권장)
+			- Spring Framework 4버전 이상부터 지원.
+		*/
 	
-	
+	</script>
+	<script src="${contextPath }/resources/js/chat.js"></script>
 	
 	
 	
